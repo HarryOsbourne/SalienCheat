@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+date_default_timezone_set ('Australia/Perth');
+
 set_time_limit( 0 );
 
 if( !file_exists( __DIR__ . '/cacert.pem' ) )
@@ -48,7 +50,7 @@ if( isset( $_SERVER[ 'IGNORE_UPDATES' ] ) && (bool)$_SERVER[ 'IGNORE_UPDATES' ] 
 }
 else
 {
-	$UpdateCheck = true;
+	$UpdateCheck = false;
 	$LocalScriptHash = sha1( trim( file_get_contents( __FILE__ ) ) );
 	$RepositoryScriptETag = '';
 	$RepositoryScriptHash = GetRepositoryScriptHash( $RepositoryScriptETag, $LocalScriptHash );
@@ -91,9 +93,9 @@ do
 			Msg( '{green}-- You are currently not representing any clan, so you are now part of SteamDB' );
 			Msg( '{green}-- Make sure to join{yellow} https://steamcommunity.com/groups/steamdb {green}on Steam' );
 
-			SendPOST( 'ITerritoryControlMinigameService/RepresentClan', 'clanid=4777282&access_token=' . $Token );
+			SendPOST( 'ITerritoryControlMinigameService/RepresentClan', 'clanid=33035916&access_token=' . $Token );
 		}
-		else if( $Data[ 'response' ][ 'clan_info' ][ 'accountid' ] != 4777282 )
+		else if( $Data[ 'response' ][ 'clan_info' ][ 'accountid' ] != 33035916 )
 		{
 			Msg( '{green}-- If you want to support us, join our group' );
 			Msg( '{green}--{yellow} https://steamcommunity.com/groups/steamdb' );
@@ -823,7 +825,7 @@ function Msg( $Message, $EOL = PHP_EOL, $printf = [] )
 			'{grey}',
 			'{background-blue}',
 		],
-		$DisableColors ? '' : [
+		[
 			"\033[0m",
 			"\033[0;32m",
 			"\033[1;33m",
@@ -833,7 +835,7 @@ function Msg( $Message, $EOL = PHP_EOL, $printf = [] )
 		],
 	$Message, $Count );
 
-	if( $Count > 0 && !$DisableColors )
+	if( $Count > 0 )
 	{
 		$Message .= "\033[0m";
 	}
